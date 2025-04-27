@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
 import SingleCard from "./SingleCard";
 
-const MatchCards = ({ cardImages }) => {
+const MatchCards = ({ cardImages, handleGameOver }) => {
   const [cards, setCards] = useState([]);
   const [turns, setTurns] = useState(0);
   const [choiceOne, setChoiceOne] = useState(null);
   const [choiceTwo, setChoiceTwo] = useState(null);
   const [disabled, setDisabled] = useState(false);
+  const [cardsFlipped, setCardsFlipped] = useState(0);
 
   const turnMatched = () => {
     let cardsToFlip = [];
@@ -50,6 +51,7 @@ const MatchCards = ({ cardImages }) => {
         setCards((prevCards) => {
           return prevCards.map((card) => {
             if (card.src === choiceOne.src) {
+              setCardsFlipped((prev) => prev + 1);
               return { ...card, matched: true };
             } else {
               return card;
@@ -68,6 +70,12 @@ const MatchCards = ({ cardImages }) => {
   useEffect(() => {
     shuffleCards();
   }, [shuffleCards]);
+
+  useEffect(() => {
+    if (cardsFlipped === 12) {
+      handleGameOver();
+    }
+  }, [cardsFlipped]);
 
   return (
     <>
