@@ -12,7 +12,7 @@ const Wordle = () => {
     useWordleHook(solution?.word);
 
   useEffect(() => {
-    fetch("http://localhost:3001/solutions")
+    fetch("/api/solutions")
       .then((res) => res.json())
       .then((jsonData) => {
         console.log("Json data : ", jsonData);
